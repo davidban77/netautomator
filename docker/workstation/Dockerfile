@@ -1,5 +1,7 @@
 FROM continuumio/miniconda3
 
+ARG root_passwd=MUSTCHANGEME
+
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     acl \
@@ -68,6 +70,8 @@ RUN ssh-keygen -q -t rsa -N '' -f /root/.ssh/id_rsa && \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys && \
     for key in /etc/ssh/ssh_host_*_key.pub; do echo "localhost $(cat ${key})" >> /root/.ssh/known_hosts; done
 
+WORKDIR /root
+
 ENV container=docker
 # terminal colors with xterm
 ENV TERM xterm
@@ -77,7 +81,16 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 
 RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kphoen"/g' /root/.zshrc
 
+# SSH part
+RUN echo "root:$root_passwd" | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 # AllowTcpForWarding
 RUN sed -i 's/#AllowTcpForwarding yes/AllowTcpForwarding yes/g' /etc/ssh/sshd_config
-WORKDIR /root
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
 ENTRYPOINT service ssh restart && zsh
