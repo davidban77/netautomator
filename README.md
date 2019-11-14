@@ -1,16 +1,18 @@
 # NetAutomator
+
 It contains Dockerfile specs for building network automation focused workstations.
 
 ## How it works
+
 Images are separated inside their respective folder in `docker/`. This way you can build an image from the parent directory like:
 
-```
+```shell
 docker build -t <some tag> -f docker/<image type>/Dockerfile .
 ```
 
 For example:
 
-```
+```shell
 docker build -t davidban77/netautomator:workstation -f docker/workstation/Dockerfile .
 ```
 
@@ -25,7 +27,8 @@ It will create the miniconda3/debian based container, that has the following att
 - Vim
 
 You can then connect to it:
-```
+
+```shell
 docker run -it davidban77/netautomator:workstation
 ```
 
@@ -35,4 +38,3 @@ It will then open a `zsh` session to the container.
 
 - `workstation`: Which serves as base image. Also serves as `latest`
 - `ansible`: Which contains extra configutation for ansible projects. It also installs `ansible` and `ansible_runner`
-

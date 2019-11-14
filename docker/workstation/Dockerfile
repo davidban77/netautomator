@@ -31,6 +31,9 @@ RUN apt-get update -y && \
     net-tools \
     vim \
     zsh \
+    telnet \
+    iperf3 \
+    mtr \
     && \
     apt-get clean
 

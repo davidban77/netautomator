@@ -1,12 +1,12 @@
 docker-clean:
 	@echo "Remove all non running containers"
-	docker rm `docker ps -q -f status=exited`
+	docker rm $$(docker ps -q -f status=exited)
 	@echo "Delete all untagged/dangling (<none>) images"
-	docker rmi --force $$(docker images -q dangling=true)
+	docker rmi --force $$(docker image ls -q --filter dangling=true)
 	# docker rmi `docker images -q -f dangling=true`
 
 clean:
-	docker rmi --force $$(docker images -q davidban77/netautomator | uniq)
+	docker rmi --force $$(docker image ls -q davidban77/netautomator | uniq)
 
 clean-containers:
 	docker stop $$(docker ps -aq)
