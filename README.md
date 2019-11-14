@@ -36,5 +36,5 @@ It will then open a `zsh` session to the container.
 
 ## Docker images
 
-- `workstation`: Which serves as base image. Also serves as `latest`
-- `ansible`: Which contains extra configutation for ansible projects. It also installs `ansible` and `ansible_runner`
+- `workstation`: Which serves as base image.
+- `ansible`: Which contains extra configutation for ansible projects. It also installs `ansible` and `ansible_runner`. Also serves as `latest`
