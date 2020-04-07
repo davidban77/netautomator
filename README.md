@@ -22,7 +22,8 @@ It will create the miniconda3/debian based container, that has the following att
 - OpenSSH Server and client: So you can ssh into the container and ssh from it.
 - ZSH: As the shell program customized with [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 - `net-tools`: Where you can use the likes of `traceroute` or `netstat`.
-- Python Poetry: For python porjects managements
+- Network related development tools: The likes of `mtr` and `tcptraceroute` among others.
+- Python Poetry: For python projects managements
 - Git
 - Vim
 

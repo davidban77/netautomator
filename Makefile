@@ -1,3 +1,7 @@
+ROOT_PASSWD?=rooting
+IMAGE?=workstation
+VERSION?=
+
 docker-clean:
 	@echo "Remove all non running containers"
 	docker rm $$(docker ps -q -f status=exited)
@@ -5,24 +9,23 @@ docker-clean:
 	docker rmi --force $$(docker image ls -q --filter dangling=true)
 	# docker rmi `docker images -q -f dangling=true`
 
-clean:
-	docker rmi --force $$(docker image ls -q davidban77/netautomator | uniq)
-
 clean-containers:
 	docker stop $$(docker ps -aq)
 	docker rm $$(docker ps -aq)
 
-clean-latest:
-	docker rmi davidban77/netautomator:latest -f
+# Example to clean all images
+# make clean IMAGE=workstation
+clean:
+	docker rmi $$(docker images --filter=reference="davidban77/netautomator:${IMAGE}*" -q)
 
-clean-workstation:
-	docker rmi davidban77/netautomator:workstation -f
+# Example to create an specific version
+# make build IMAGE=workstation VERSION=-1.0.0 ROOT_PASSWD=rooting
+build:
+	cd docker/${IMAGE}/ && \
+		docker build --build-arg root_passwd=${ROOT_PASSWD} -t davidban77/netautomator:${IMAGE}${VERSION} . && \
+		cd ../../
 
-clean-ansible:
-	docker rmi davidban77/netautomator:ansible -f
-
-workstation: clean-workstation
-	docker build -t davidban77/netautomator:workstation -f docker/workstation/Dockerfile .
-
-ansible: clean-ansible
-	docker build -t davidban77/netautomator:ansible -f docker/ansible/Dockerfile .
+# Example to push an specific version
+# make push IMAGE=workstation VERSION=-1.0.0
+push:
+	docker push davidban77/netautomator:${IMAGE}${VERSION}
