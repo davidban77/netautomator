@@ -91,7 +91,8 @@ ENV TERM xterm
 
 # run the ohmyzsh installation script
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
-    && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kphoen"/g' /root/.zshrc
+    && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kphoen"/g' /root/.zshrc \
+    && conda init zsh
 
 # SSH part
 RUN echo "root:$root_passwd" | chpasswd \

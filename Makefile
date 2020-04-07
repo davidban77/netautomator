@@ -16,7 +16,7 @@ clean-containers:
 # Example to clean all images
 # make clean IMAGE=workstation
 clean:
-	docker rmi $$(docker images --filter=reference="davidban77/netautomator:${IMAGE}*" -q)
+	docker rmi -f $$(docker images --filter=reference="davidban77/netautomator:${IMAGE}*" -q)
 
 # Example to create an specific version
 # make build IMAGE=workstation VERSION=-1.0.0 ROOT_PASSWD=rooting
