@@ -4,6 +4,8 @@ ARG root_passwd=rooting
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    iputils-ping \
+    traceroute \
     acl \
     bzip2 \
     curl \
