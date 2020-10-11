@@ -20,9 +20,14 @@ clean:
 
 # Example to create an specific version
 # make build IMAGE=workstation VERSION=-1.0.0 ROOT_PASSWD=rooting
+build-netautomator:
+	cd docker/${IMAGE}/ && \
+		docker build --build-arg root_passwd=${ROOT_PASSWD} -t davidban77/netautomator:${IMAGE}v${VERSION} . && \
+		cd ../../
+
 build:
 	cd docker/${IMAGE}/ && \
-		docker build --build-arg root_passwd=${ROOT_PASSWD} -t davidban77/netautomator:${IMAGE}${VERSION} . && \
+		docker build -t davidban77/${IMAGE}:${VERSION} . && \
 		cd ../../
 
 # Example to push an specific version
